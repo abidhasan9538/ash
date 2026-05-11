@@ -5,6 +5,7 @@
 #include<unistd.h>
 #include<vector>
 #include<sys/wait.h>
+#include<cstdlib>
 using namespace std;
 
 int main() {
@@ -36,12 +37,28 @@ int main() {
         cout << current_dir << endl;
     }
    }
+  else if(command == "cd"){
+    string path;
+    ss >> path;
+    if(path.empty() || path == "~"){
+        char* home = getenv("HOME");
+
+        if(home != nullptr){
+            chdir(home);
+        }
+    }
+    else{
+        if(chdir(path.c_str()) != 0){
+            cout << "cd: " << path << ": No such file or directory\n";
+        }
+    }
+}
     else if(command == "type"){
       string command_to_know;
       ss>>command_to_know;
       bool found = false;
-      string builtin[3] = {"echo", "type", "exit"};
-      for(int i = 0; i<3; i++){
+      string builtin[5] = {"echo", "type", "exit", "pwd", "cd"};
+      for(int i = 0; i<5; i++){
         if(command_to_know == builtin[i]){
           cout << command_to_know << " is a shell builtin" << endl;
           found = true;

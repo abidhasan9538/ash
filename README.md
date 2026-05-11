@@ -10,6 +10,8 @@ This project was made to understand how real shells work by implementing basic s
 * `echo` builtin command
 * `exit` builtin command
 * `type` builtin command
+* `pwd` builtin command
+* `cd` builtin command
 * Searches commands in `PATH`
 * Runs external commands using `fork()` and `execvp()`
 * Supports command arguments
@@ -31,6 +33,18 @@ main.cpp shell
 
 $ pwd
 /home/user/project
+
+$ cd ~
+$ pwd
+/Users/abidhasan
+
+$ cd ..
+$ pwd
+/Users
+
+$ cd /Users/abidhasan/ash/src
+$ pwd
+/Users/abidhasan/ash/src
 
 $ exit
 ```

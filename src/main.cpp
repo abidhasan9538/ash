@@ -29,6 +29,13 @@ int main() {
       }
       cout << endl;
     }
+    else if (command == "pwd") {
+    char current_dir[1024];
+
+    if (getcwd(current_dir, sizeof(current_dir)) != nullptr) {
+        cout << current_dir << endl;
+    }
+   }
     else if(command == "type"){
       string command_to_know;
       ss>>command_to_know;
@@ -58,23 +65,23 @@ int main() {
 
     }
     else {
-    std::vector<std::string> args;
+    vector<string> args;
     args.push_back(command);
 
-    std::string word;
+    string word;
 
     while (ss >> word) {
         args.push_back(word);
     }
 
-    std::string executable = "";
+    string executable = "";
 
-    std::string path_env = getenv("PATH");
-    std::stringstream path_stream(path_env);
-    std::string path;
+    string path_env = getenv("PATH");
+    stringstream path_stream(path_env);
+    string path;
 
     while (getline(path_stream, path, ':')) {
-        std::string full_path = path + "/" + command;
+        string full_path = path + "/" + command;
 
         if (access(full_path.c_str(), X_OK) == 0) {
             executable = full_path;
@@ -83,14 +90,14 @@ int main() {
     }
 
     if (executable == "") {
-        std::cout << command << ": command not found\n";
+        cout << command << ": command not found\n";
         continue;
     }
 
     pid_t pid = fork();
 
     if (pid == 0) {
-        std::vector<char*> c_args;
+        vector<char*> c_args;
 
         for (auto &arg : args) {
             c_args.push_back(const_cast<char*>(arg.c_str()));
